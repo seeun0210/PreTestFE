@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Chat from "../components/Chat"; // Chat 컴포넌트 임포트
-import ChatRoomEntry from "../components/ChatRoomEntry"; // ChatRoomEntry 컴포넌트 임포트
+import ChatRoomEntry from "../components/ChatRoomEntry"; // ChatRoomEntry 컴포넌트 임포트
 
 const ChatPage = () => {
   const [roomId, setRoomId] = useState("");
