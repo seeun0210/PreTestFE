@@ -16,7 +16,7 @@ const LoginForm = () => {
     const token = btoa(`${email}:${password}`);
 
     try {
-      const response = await fetch("http://localhost:3001/auth/login/email", {
+      const response = await fetch("http://localhost:8000/auth/signin", {
         method: "POST",
         headers: {
           Authorization: `Basic ${token}`,
@@ -27,12 +27,16 @@ const LoginForm = () => {
         const data = await response.json();
         console.log(data); // 로그인 성공시 응답 처리
 
-        // 로그인 성공 후 토큰을 로컬 스토리지에 저장
+        // 로그인 성공 후 토큰과 사용자 닉네임을 로컬 스토리지에 저장
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
+        localStorage.setItem("userNickname", data.nickname); // 닉네임 저장
+
+        // 환영 메시지 띄우기
+        alert(`${data.nickname}님 안녕하세요!`);
 
         // 메인 페이지로 리다이렉트
-        navigate("/"); // 메인 페이지 경로를 '/main' 등 실제 경로에 맞게 수정하세요.
+        navigate("/");
       } else {
         alert("Login failed");
       }

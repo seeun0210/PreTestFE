@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ setActiveSection, userNickname }) => {
+const Header = ({ setActiveSection }) => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const userNickname = localStorage.getItem("userNickname") || "사용자";
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userNickname");
     navigate("/login"); // 로그인 페이지로 리다이렉트
   };
 
