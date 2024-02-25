@@ -17,23 +17,24 @@ const SignUpForm = () => {
     };
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/auth/register/email",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        }
-      );
+      const response = await fetch("http://localhost:8000/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
 
       if (response.ok) {
         const data = await response.json();
         console.log(data); // 회원가입 성공 시 응답 처리
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
-        alert("회원가입 및 로그인 성공!");
+        localStorage.setItem("userNickname", username); // 닉네임 저장
+
+        // 사용자에게 닉네임을 포함한 환영 메시지 띄우기
+        alert(`${username}님, 회원가입을 축하합니다!`);
+
         navigate("/");
       } else {
         // 서버 에러 처리

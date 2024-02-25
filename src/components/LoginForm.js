@@ -13,12 +13,10 @@ const LoginForm = () => {
   const handleLogin = async (e) => {
     e.preventDefault(); // 폼 제출 기본 동작 방지
 
-    // 이메일과 비밀번호를 Base64로 인코딩
     const token = btoa(`${email}:${password}`);
 
     try {
-      // 로그인 요청
-      const response = await fetch("http://localhost:3001/auth/login/email", {
+      const response = await fetch("http://localhost:8000/auth/signin", {
         method: "POST",
         headers: {
           Authorization: `Basic ${token}`,
@@ -28,9 +26,18 @@ const LoginForm = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data); // 로그인 성공시 응답 처리
-        // 로그인 성공 후의 로직 (예: 토큰 저장, 홈 페이지로 리다이렉트 등)
+
+        // 로그인 성공 후 토큰과 사용자 닉네임을 로컬 스토리지에 저장
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+        localStorage.setItem("userNickname", data.nickname); // 닉네임 저장
+
+        // 환영 메시지 띄우기
+        alert(`${data.nickname}님 안녕하세요!`);
+
+        // 메인 페이지로 리다이렉트
+        navigate("/");
       } else {
-        // 로그인 실패 처리
         alert("Login failed");
       }
     } catch (error) {
