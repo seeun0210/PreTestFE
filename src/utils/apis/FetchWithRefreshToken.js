@@ -31,6 +31,7 @@ const refreshToken = async () => {
     if (response.ok) {
       const data = await response.json();
       // 새 액세스 토큰을 로컬 스토리지에 저장
+      console.log(data.accessToken);
       localStorage.setItem("accessToken", data.accessToken);
       return true;
     }
@@ -41,3 +42,5 @@ const refreshToken = async () => {
     return false;
   }
 };
+
+export default fetchWithTokenRefresh;
