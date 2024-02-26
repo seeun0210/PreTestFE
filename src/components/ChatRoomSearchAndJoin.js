@@ -82,7 +82,7 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
         >
           🔍
         </button>
-      </form>
+      </form>{" "}
       <div className="overflow-auto h-[desired-height]">
         <table className="min-w-full max-w-[desired-width] divide-y divide-gray-200">
           <thead className="bg-gray-50">
@@ -107,41 +107,50 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
               </th>
             </tr>
           </thead>
+
           <tbody className="bg-white divide-y divide-gray-200">
-            {searchResults.map((room) => (
-              <tr key={room.id}>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center">
+            {searchResults.length > 0 ? (
+              searchResults.map((room) => (
+                <tr key={room.id}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <div
+                        className="text-sm font-medium text-gray-900 truncate"
+                        style={{ maxWidth: "200px" }}
+                      >
+                        {room.title} {room.isPublic ? "" : "🔒"}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <div
-                      className="text-sm font-medium text-gray-900 truncate"
+                      className="text-sm text-gray-500  truncate "
                       style={{ maxWidth: "200px" }}
                     >
-                      {room.title} {room.isPublic ? "" : "🔒"}
+                      {room.description}
                     </div>
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div
-                    className="text-sm text-gray-500  truncate "
-                    style={{ maxWidth: "200px" }}
-                  >
-                    {room.description}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button
-                    onClick={() =>
-                      room.isPublic
-                        ? handleJoinRoom(room.id)
-                        : promptForPasswordAndJoin(room.id)
-                    }
-                    className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
-                  >
-                    Join
-                  </button>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <button
+                      onClick={() =>
+                        room.isPublic
+                          ? handleJoinRoom(room.id)
+                          : promptForPasswordAndJoin(room.id)
+                      }
+                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
+                    >
+                      Join
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="3" className="text-center py-4">
+                  검색결과가 없습니다.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
