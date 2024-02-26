@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
+import moment from "moment"; // 날짜 처리를 위한 라이브러리
 
-const currentUserId = localStorage.getItem("userNickname"); // 현재 사용자의 닉네임 또는 식별자
+const currentUserId = localStorage.getItem("userNickname");
 
 const Chat = ({ roomId }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
-  const [members, setMembers] = useState([]); // 채팅방 멤버 목록
-  const [selectedMember, setSelectedMember] = useState(""); // 선택된 귓속말 대상
+  const [members, setMembers] = useState([]);
+  const [selectedMember, setSelectedMember] = useState("");
   const chatContainerRef = useRef(null);
   const socketRef = useRef();
 
@@ -19,7 +20,7 @@ const Chat = ({ roomId }) => {
     socketRef.current.emit("join_room", { roomId });
 
     socketRef.current.on("room_info_with_members", (data) => {
-      setMembers(data.members); // 서버로부터 받은 채팅방 멤버 정보 저장
+      setMembers(data.members);
     });
 
     socketRef.current.on("chat_history", (chatLogs) => {
@@ -44,7 +45,7 @@ const Chat = ({ roomId }) => {
     const payload = {
       message,
       roomId,
-      receiver: selectedMember, // 메시지의 대상이 되는 멤버의 닉네임
+      receiver: selectedMember,
     };
 
     socketRef.current.emit("message", payload);
@@ -60,12 +61,22 @@ const Chat = ({ roomId }) => {
     }, 0);
   };
 
-  return (
-    <div className="chat-container p-4 max-w-xl mx-auto border rounded-lg shadow">
-      <div
-        className="messages overflow-y-auto h-96 mb-4 p-4 bg-gray-50 rounded-lg"
-        ref={chatContainerRef}
-      >
+  // 날짜별로 메시지를 구분하여 렌더링하는 함수
+  const renderMessages = () => {
+    const groupedMessages = messages.reduce((acc, message) => {
+      const date = moment(message.createdAt).format("YYYY-MM-DD");
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(message);
+      return acc;
+    }, {});
+
+    return Object.entries(groupedMessages).map(([date, messages]) => (
+      <div key={date}>
+        <div className="text-center text-gray-600 my-2">
+          {moment(date).format("LL")}
+        </div>
         {messages.map((msg) => (
           <div
             key={msg._id}
@@ -78,11 +89,9 @@ const Chat = ({ roomId }) => {
                 msg.sender === currentUserId ? "text-right" : ""
               }`}
             >
-              {/* 다른 사람이 보낸 메시지일 경우 sender 표시 */}
               {msg.sender !== currentUserId && (
                 <div className="text-gray-500 text-xs mb-1">{msg.sender}</div>
               )}
-
               {msg.receiver && (
                 <span className="text-green-600">
                   (속닥속닥) @
@@ -90,9 +99,23 @@ const Chat = ({ roomId }) => {
                 </span>
               )}
               {` ${msg.message}`}
+              <div className="text-xs text-gray-400">
+                {moment(msg.createdAt).format("LT")}
+              </div>
             </div>
           </div>
         ))}
+      </div>
+    ));
+  };
+
+  return (
+    <div className="chat-container p-4 max-w-xl mx-auto border rounded-lg shadow">
+      <div
+        className="messages overflow-y-auto h-96 mb-4 p-4 bg-gray-50 rounded-lg"
+        ref={chatContainerRef}
+      >
+        {renderMessages()}
       </div>
       <div className="mb-4">
         <select

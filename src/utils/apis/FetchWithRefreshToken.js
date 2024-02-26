@@ -31,16 +31,29 @@ const refreshToken = async () => {
     if (response.ok) {
       const data = await response.json();
       // 새 액세스 토큰을 로컬 스토리지에 저장
-      console.log(data.accessToken);
       localStorage.setItem("accessToken", data.accessToken);
       return true;
+    } else if (response.status === 401) {
+      // 리프레시 토큰이 만료된 경우 로그아웃 처리
+      logoutUser();
     }
 
     return false;
   } catch (error) {
     console.error("Token refresh error:", error);
+    logoutUser();
     return false;
   }
+};
+
+// 사용자 로그아웃 처리 함수
+const logoutUser = () => {
+  // 로컬 스토리지에서 인증 토큰 제거
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("userNickname");
+  // 로그인 페이지로 이동 또는 로그아웃 상태 처리
+  window.location.href = "/login"; // 예시 URL, 실제 프로젝트에 맞게 조정 필요
 };
 
 export default fetchWithTokenRefresh;

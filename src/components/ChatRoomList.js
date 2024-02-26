@@ -29,7 +29,7 @@ const ChatRoomList = ({ onEnterRoom }) => {
       <ul className="divide-y divide-gray-200">
         {chatRooms.map((room) => (
           <li key={room.id}>
-            <a href="#" className="block hover:bg-gray-50">
+            <div className="block hover:bg-gray-50">
               <div className="px-4 py-4 sm:px-6">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-indigo-600 truncate">
@@ -37,7 +37,7 @@ const ChatRoomList = ({ onEnterRoom }) => {
                   </p>
                   <button
                     onClick={() => onEnterRoom(room.id)}
-                    className="ml-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                    className="ml-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
                   >
                     Enter
                   </button>
@@ -50,7 +50,7 @@ const ChatRoomList = ({ onEnterRoom }) => {
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           </li>
         ))}
       </ul>
