@@ -34,9 +34,12 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
   };
 
   const handleJoinRoom = async (roomId, password = "") => {
-    let bodyData = { roomId };
+    let bodyData = {};
     if (password) {
       bodyData.password = password;
+      bodyData.isPublic = false;
+    } else {
+      bodyData.isPublic = true;
     }
 
     const options = {
@@ -53,7 +56,8 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
       alert("채팅방 가입 성공");
       onJoinSuccess();
     } else {
-      alert("채팅방 가입 실패");
+      const errorData = await response.json();
+      alert(`채팅방 가입 실패: ${errorData.message}`);
     }
   };
 
