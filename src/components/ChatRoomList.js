@@ -48,21 +48,22 @@ const ChatRoomList = ({ onEnterRoom }) => {
             <div className="block hover:bg-gray-50">
               <div className="px-4 py-4 sm:px-6">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium text-indigo-600 truncate">
+                  <div className="text-sm font-medium text-indigo-600 truncate">
                     {room.title}
                     {room.admin.nickname === userNickname && (
                       <FaCrown className="inline text-yellow-500" size="16" />
                     )}
-                    <p className="text-xs text-gray-500">
-                      {moment(room.updatedAt).fromNow()}{" "}
-                      {/* 여기에 로직 추가 */}
-                    </p>
-                  </p>
+                    <br />
+                    <span className="text-xs text-gray-500">
+                      {moment(room.updatedAt).fromNow()}
+                    </span>
+                  </div>
+
                   <button
                     onClick={() => onEnterRoom(room.id)}
                     className="ml-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 flex items-center justify-center"
                   >
-                    <MdLogin size="20" /> {/* 아이콘으로 변경 */}
+                    <MdLogin size="20" />
                   </button>
                 </div>
                 <div className="mt-2 sm:flex sm:justify-between">

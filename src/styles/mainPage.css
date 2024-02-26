@@ -1,0 +1,50 @@
+
+.main-section {
+    text-align: center;
+    padding: 50px;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .welcome-message {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  
+  .app-intro {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  
+  .call-to-action {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .create-room-button,
+  .join-room-button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-room-button:hover,
+  .join-room-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .button-icon {
+    margin-right: 5px;
+  }
+  

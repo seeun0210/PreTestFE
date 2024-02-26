@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Header from "../components/Header";
 import Chat from "../components/Chat";
 import ChatRoomList from "../components/ChatRoomList";
 import CreateChatRoomForm from "../components/CreateChatRoomForm";
@@ -39,6 +40,11 @@ const ChatPage = () => {
 
   return (
     <>
+      <Header
+        toggleCreateRoomForm={toggleCreateRoomForm}
+        toggleSearch={toggleSearch}
+      />{" "}
+      {/* 헤더에 함수 전달 */}
       <div className="grid grid-cols-3 h-screen ">
         <div className="col-span-1 border-r-2 border-gray-200 p-4">
           <div className="flex justify-between mb-4">

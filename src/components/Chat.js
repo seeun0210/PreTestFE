@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import fetchWithTokenRefresh from "../utils/apis/FetchWithRefreshToken";
 import io from "socket.io-client";
 import moment from "moment"; // 날짜 처리를 위한 라이브러리
-import { FaPaperPlane } from "react-icons/fa"; // 아이콘 추가
+import { FaPaperPlane, FaDoorOpen } from "react-icons/fa"; // 나가기 아이콘 추가
 
 const currentUserId = localStorage.getItem("userNickname");
 const MAX_MESSAGE_LENGTH = 100;
@@ -9,13 +11,13 @@ const Chat = ({ roomId }) => {
   const [roomTitle, setRoomTitle] = useState("");
   const [roomDescription, setRoomDescription] = useState("");
   const [expandedMessages, setExpandedMessages] = useState({});
-
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [members, setMembers] = useState([]);
   const [selectedMember, setSelectedMember] = useState("");
   const chatContainerRef = useRef(null);
   const socketRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     socketRef.current = io("http://localhost:8000/chat", {
@@ -44,6 +46,39 @@ const Chat = ({ roomId }) => {
       socketRef.current.disconnect();
     };
   }, [roomId]);
+  //채팅방 나가기
+  const handleLeaveRoom = async () => {
+    const isConfirmed = window.confirm(
+      "정말로 나가겠습니까?\n채팅방에서 나가면 채팅 목록에서도 사라집니다."
+    );
+    if (!isConfirmed) {
+      return; // 사용자가 취소를 클릭한 경우
+    }
+
+    const url = `http://localhost:8000/chat-room/${roomId}/leave`; // 실제 나가기 API 엔드포인트
+    const options = {
+      method: "PATCH", // 요청 메소드
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // 초기 액세스 토큰
+      },
+    };
+
+    try {
+      const response = await fetchWithTokenRefresh(url, options); // 수정된 함수 사용
+      if (response.ok) {
+        // 채팅방 나가기 성공
+        alert("채팅방에서 성공적으로 나갔습니다.");
+        navigate("/chat");
+      } else {
+        // 요청 실패 처리
+        throw new Error("채팅방 나가기 실패");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("채팅방 나가기 중 문제가 발생했습니다.");
+    }
+  };
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -153,10 +188,23 @@ const Chat = ({ roomId }) => {
 
   return (
     <>
-      <div className="chat-room-header p-4 border-b text-center">
-        <h2 className="text-xl font-semibold">{roomTitle}</h2>
-        <p className="text-gray-600">{roomDescription}</p>
+      <div className="chat-room-header p-6 border-b text-center grid grid-cols-6 items-center">
+        <div className="col-span-1" />
+        <div className="col-span-3">
+          <h2 className="text-xl font-semibold">{roomTitle}</h2>
+          <p className="text-gray-600">{roomDescription}</p>
+        </div>
+        <div className="flex justify-end col-span-1">
+          <button
+            onClick={handleLeaveRoom}
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200 flex items-center"
+          >
+            <FaDoorOpen />
+          </button>
+        </div>
+        <div className="col-span-1" />
       </div>
+
       <div className="chat-container p-4 max-w-xl mx-auto border rounded-lg shadow">
         <div
           className="messages overflow-y-auto h-96 mb-4 p-4 bg-gray-50 rounded-lg"
