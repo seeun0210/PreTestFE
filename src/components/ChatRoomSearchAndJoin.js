@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import fetchWithTokenRefresh from "../utils/apis/FetchWithRefreshToken";
-
+import { FaSearch } from "react-icons/fa";
 const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -84,7 +84,7 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          🔍
+          <FaSearch />
         </button>
       </form>{" "}
       <div className="overflow-auto h-[desired-height]">

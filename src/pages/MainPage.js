@@ -7,7 +7,8 @@ const MainPage = () => {
   const [activeSection, setActiveSection] = useState("chat");
 
   return (
-    <div>
+    <div className="app-container">
+      {" "}
       <Header setActiveSection={setActiveSection} />
       <main>
         {activeSection === "chat" && <ChatPage />}

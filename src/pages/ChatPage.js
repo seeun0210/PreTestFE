@@ -3,6 +3,7 @@ import Chat from "../components/Chat";
 import ChatRoomList from "../components/ChatRoomList";
 import CreateChatRoomForm from "../components/CreateChatRoomForm";
 import ChatRoomSearchAndJoin from "../components/ChatRoomSearchAndJoin"; // Import the search component
+import { FaPlus, FaSearch } from "react-icons/fa";
 
 const ChatPage = () => {
   const [roomId, setRoomId] = useState("");
@@ -37,40 +38,61 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="grid grid-cols-3 h-screen">
-      <div className="col-span-1 border-r-2 border-gray-200 p-4">
-        <div className="flex justify-between mb-4">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-full w-10 h-10 flex items-center justify-center"
-            onClick={toggleCreateRoomForm}
-          >
-            +
-          </button>
+    <>
+      <div className="grid grid-cols-3 h-screen ">
+        <div className="col-span-1 border-r-2 border-gray-200 p-4">
+          <div className="flex justify-between mb-4">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-full w-10 h-10 flex items-center justify-center rotate-on-hover"
+              onClick={toggleCreateRoomForm}
+            >
+              <FaPlus /> {/* 아이콘으로 변경 */}
+            </button>
 
-          <button
-            className="bg-blue-500 hover:bg-blue-700 hover:bg-green-300 text-white font-bold rounded-full w-10 h-10 flex items-center justify-center"
-            onClick={toggleSearch}
-          >
-            🔍
-          </button>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-full w-10 h-10 flex items-center justify-center"
+              onClick={toggleSearch}
+            >
+              <FaSearch /> {/* 아이콘으로 변경 */}
+            </button>
+          </div>
+          {showCreateRoomForm && (
+            <CreateChatRoomForm
+              onCreate={handleCreateRoom}
+              onCancel={handleCancelCreateRoom}
+            />
+          )}
+          {showSearch && (
+            <ChatRoomSearchAndJoin onJoinSuccess={() => setShowSearch(false)} />
+          )}
+          {!showCreateRoomForm && !showSearch && (
+            <ChatRoomList onEnterRoom={handleEnterRoom} />
+          )}
         </div>
-        {showCreateRoomForm && (
-          <CreateChatRoomForm
-            onCreate={handleCreateRoom}
-            onCancel={handleCancelCreateRoom}
-          />
-        )}
-        {showSearch && (
-          <ChatRoomSearchAndJoin onJoinSuccess={() => setShowSearch(false)} />
-        )}
-        {!showCreateRoomForm && !showSearch && (
-          <ChatRoomList onEnterRoom={handleEnterRoom} />
-        )}
+        <div className="col-span-2 p-4">
+          {roomId ? (
+            <Chat roomId={roomId} />
+          ) : (
+            <div className="flex items-center justify-center h-screen">
+              <div className="col-span-2 p-4 flex justify-center items-center flex-col">
+                <div className="flex items-center">
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                </div>
+                <div className="text-lg font-semibold text-gray-800 mb-2 ">
+                  채팅방을 선택해주세요
+                </div>
+                <p className="text-gray-600">
+                  좌측 메뉴에서 채팅방을 선택하거나, 새로운 채팅방을 생성할 수
+                  있습니다.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      <div className="col-span-2 p-4">
-        {roomId ? <Chat roomId={roomId} /> : <div>Select a chat room</div>}
-      </div>
-    </div>
+    </>
   );
 };
 

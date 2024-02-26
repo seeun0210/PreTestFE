@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import fetchWithTokenRefresh from "../utils/apis/FetchWithRefreshToken";
+import { MdLogin } from "react-icons/md";
+import { FaCrown } from "react-icons/fa";
+import moment from "moment";
 
 const ChatRoomList = ({ onEnterRoom }) => {
   const [chatRooms, setChatRooms] = useState([]);
+  const userNickname = localStorage.getItem("userNickname"); // localStorage에서 userNickname 가져오기
 
   useEffect(() => {
-    const fetchChatRooms = async () => {
+    const fetchChatRooms = async (retryCount = 0) => {
       const url = "http://localhost:8000/chat-room";
       const options = {
         method: "GET",
@@ -13,11 +17,23 @@ const ChatRoomList = ({ onEnterRoom }) => {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       };
-      const response = await fetchWithTokenRefresh(url, options);
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setChatRooms(data.chatRooms);
+
+      try {
+        const response = await fetchWithTokenRefresh(url, options);
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data.chatRooms);
+          setChatRooms(data.chatRooms);
+        } else {
+          throw new Error("Failed to fetch chat rooms");
+        }
+      } catch (error) {
+        if (retryCount < 3) {
+          console.log(`Retrying... Attempt ${retryCount + 1}`);
+          fetchChatRooms(retryCount + 1);
+        } else {
+          console.error("Failed to fetch chat rooms after 3 attempts");
+        }
       }
     };
 
@@ -25,7 +41,7 @@ const ChatRoomList = ({ onEnterRoom }) => {
   }, []);
 
   return (
-    <div className="bg-white shadow overflow-hidden sm:rounded-md">
+    <div className="chat-room-list bg-white shadow overflow-hidden sm:rounded-md">
       <ul className="divide-y divide-gray-200">
         {chatRooms.map((room) => (
           <li key={room.id}>
@@ -34,12 +50,19 @@ const ChatRoomList = ({ onEnterRoom }) => {
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-indigo-600 truncate">
                     {room.title}
+                    {room.admin.nickname === userNickname && (
+                      <FaCrown className="inline text-yellow-500" size="16" />
+                    )}
+                    <p className="text-xs text-gray-500">
+                      {moment(room.updatedAt).fromNow()}{" "}
+                      {/* 여기에 로직 추가 */}
+                    </p>
                   </p>
                   <button
                     onClick={() => onEnterRoom(room.id)}
-                    className="ml-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                    className="ml-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 flex items-center justify-center"
                   >
-                    Enter
+                    <MdLogin size="20" /> {/* 아이콘으로 변경 */}
                   </button>
                 </div>
                 <div className="mt-2 sm:flex sm:justify-between">

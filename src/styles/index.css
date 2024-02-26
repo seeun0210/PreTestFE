@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+  
+.chat-room-list {
+    max-height: 80vh; /* 또는 원하는 높이 값 */
+    overflow-y: auto; /* 세로 스크롤바 활성화 */
+  }
+  
+  @keyframes dotPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.5);
+      opacity: 0.7;
+    }
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    background-color: #007bff;
+    border-radius: 50%;
+    margin: 0 5px;
+    /* 애니메이션 적용 */
+    animation: dotPulse 1.5s infinite ease-in-out;
+  }
+  
+  .dot:nth-child(1) {
+    animation-delay: -0.5s;
+  }
+  
+  .dot:nth-child(2) {
+    animation-delay: -0.25s;
+  }
+  .rotate-on-hover:hover {
+    transform: rotate(90deg);
+    transition: transform 0.2s ease-in-out;
+  }
