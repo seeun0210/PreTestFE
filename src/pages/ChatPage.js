@@ -41,13 +41,14 @@ const ChatPage = () => {
       <div className="col-span-1 border-r-2 border-gray-200 p-4">
         <div className="flex justify-between mb-4">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-full w-10 h-10 flex items-center justify-center"
             onClick={toggleCreateRoomForm}
           >
             +
           </button>
+
           <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-blue-500 hover:bg-blue-700 hover:bg-green-300 text-white font-bold rounded-full w-10 h-10 flex items-center justify-center"
             onClick={toggleSearch}
           >
             🔍
