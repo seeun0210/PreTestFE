@@ -1,11 +1,15 @@
 import React from "react";
+import Header from "../components/Header";
 
 const FileUploadPage = () => {
   return (
-    <div>
-      <h1>파일 업로드 페이지</h1>
-      {/* 파일 업로드 관련 컨텐츠 */}
-    </div>
+    <>
+      <Header />
+      <div>
+        <h1>파일 업로드 페이지</h1>
+        {/* 파일 업로드 관련 컨텐츠 */}
+      </div>
+    </>
   );
 };
 

@@ -36,7 +36,7 @@ const LoginForm = () => {
         alert(`${data.nickname}님 안녕하세요!`);
 
         // 메인 페이지로 리다이렉트
-        navigate("/");
+        navigate("/chat");
       } else {
         alert("Login failed");
       }

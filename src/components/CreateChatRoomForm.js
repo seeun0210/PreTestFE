@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import fetchWithTokenRefresh from "../utils/apis/FetchWithRefreshToken";
+import { FaCheck, FaTimes } from "react-icons/fa";
 
 const CreateChatRoomForm = ({ onCreate, onCancel }) => {
   const [title, setTitle] = useState("");
@@ -62,6 +63,7 @@ const CreateChatRoomForm = ({ onCreate, onCancel }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          style={{ fontSize: "1.125rem" }} // 글자 크기 조정
         />
       </div>
       <div>
@@ -108,19 +110,23 @@ const CreateChatRoomForm = ({ onCreate, onCancel }) => {
           />
         </div>
       )}
-      <button
-        type="submit"
-        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-      >
-        Create
-      </button>
-      <button
-        type="button" // submit이 아닌 일반 버튼으로 설정
-        onClick={handleCancel} // 클릭 시 handleCancel 함수 호출
-        className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-      >
-        Cancel
-      </button>
+      <div className="flex justify-end">
+        {" "}
+        {/* 이 div로 버튼들을 감싸서 오른쪽 정렬 */}
+        <button
+          type="submit"
+          className="inline-flex justify-center mr-2 py-2 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          <FaCheck className="text-lg" /> {/* 아이콘 크기 조정 */}
+        </button>
+        <button
+          type="button"
+          onClick={handleCancel}
+          className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-gray-500 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+        >
+          <FaTimes className="text-lg" /> {/* 아이콘 크기 조정 */}
+        </button>
+      </div>
     </form>
   );
 };

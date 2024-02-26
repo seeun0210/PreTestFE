@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import fetchWithTokenRefresh from "../utils/apis/FetchWithRefreshToken";
-
+import { FaSearch } from "react-icons/fa";
 const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -34,9 +34,12 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
   };
 
   const handleJoinRoom = async (roomId, password = "") => {
-    let bodyData = { roomId };
+    let bodyData = {};
     if (password) {
       bodyData.password = password;
+      bodyData.isPublic = false;
+    } else {
+      bodyData.isPublic = true;
     }
 
     const options = {
@@ -53,7 +56,8 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
       alert("채팅방 가입 성공");
       onJoinSuccess();
     } else {
-      alert("채팅방 가입 실패");
+      const errorData = await response.json();
+      alert(`채팅방 가입 실패: ${errorData.message}`);
     }
   };
 
@@ -80,7 +84,7 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          🔍
+          <FaSearch />
         </button>
       </form>{" "}
       <div className="overflow-auto h-[desired-height]">
