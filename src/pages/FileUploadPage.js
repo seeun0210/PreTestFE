@@ -25,7 +25,7 @@ const FileUploadPage = () => {
         },
       };
       const response = await fetchWithTokenRefresh(
-        "http://localhost:8000/file",
+        `${process.env.REACT_APP_BE_URL}/file`,
         options
       );
       if (response.ok) {

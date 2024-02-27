@@ -29,7 +29,7 @@ const FileTree = ({ fileStructure, onSelectFile }) => {
     const encodedFilepath = encodeURIComponent(filepath);
     try {
       const response = await fetchWithTokenRefresh(
-        `http://localhost:8000/file/content`,
+        `${process.env.REACT_APP_BE_URL}/file/content`,
         {
           method: "GET",
           headers: {

@@ -21,9 +21,9 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
     };
-    const url = `http://localhost:8000/chat-room/search?term=${encodeURIComponent(
-      searchTerm
-    )}`;
+    const url = `${
+      process.env.REACT_APP_BE_URL
+    }/chat-room/search?term=${encodeURIComponent(searchTerm)}`;
     const response = await fetchWithTokenRefresh(url, options);
     if (response.ok) {
       const data = await response.json();
@@ -50,7 +50,7 @@ const ChatRoomSearchAndJoin = ({ onJoinSuccess }) => {
       },
       body: JSON.stringify(bodyData),
     };
-    const url = `http://localhost:8000/chat-room/${roomId}/join`;
+    const url = `${process.env.REACT_APP_BE_URL}/chat-room/${roomId}/join`;
     const response = await fetchWithTokenRefresh(url, options);
     if (response.ok) {
       alert("채팅방 가입 성공");

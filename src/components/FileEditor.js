@@ -15,7 +15,7 @@ const FileEditor = ({ selectedFile, onSave }) => {
 
   const handleSave = async () => {
     setIsLoading(true); // 저장 시작 시 로딩 상태 활성화
-    const url = "http://localhost:8000/file";
+    const url = `${process.env.REACT_APP_BE_URL}/file`;
     const options = {
       method: "PUT",
       headers: {
