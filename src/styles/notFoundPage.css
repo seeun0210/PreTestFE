@@ -1,0 +1,73 @@
+.rain {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #595b5b; /* 하늘색 배경 */
+    color: #fff; /* 글자 색상 */
+  }
+  
+  .cloud {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+  }
+  
+  .cloud:before, .cloud:after {
+    content: '';
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+  }
+  
+  .cloud:before {
+    width: 100px;
+    height: 100px;
+    top: -50px;
+    left: 10px;
+  }
+  
+  .cloud:after {
+    width: 120px;
+    height: 120px;
+    top: -70px;
+    right: 10px;
+  }
+  
+  /* 구름 크기 조절 */ㅁ
+  .small { width: 180px; height: 60px; }
+  .medium { width: 200px; height: 60px; }
+  .large { width: 220px; height: 80px; }
+  
+  .message {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    top: 20%; /* 중앙 정렬을 위한 조정 */
+  }
+  
+  .message h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.5em;
+  }
+  
+  .message p {
+    font-size: 1.2em;
+  }
+  
+  .drop {
+    background: skyblue;
+    width: 2px;
+    height: 20px;
+    position: absolute;
+    bottom: 100%;
+    animation: fall linear infinite;
+  }
+  
+  @keyframes fall {
+    to {
+      transform: translateY(100vh);
+    }
+  }
+  

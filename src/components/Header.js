@@ -8,9 +8,8 @@ const Header = () => {
   const userNickname = localStorage.getItem("userNickname") || "사용자";
 
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userNickname");
+    localStorage.clear();
+
     navigate("/login"); // 로그인 페이지로 이동
   };
 
