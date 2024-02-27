@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import FileUploadPage from "./pages/FileUploadPage"; // 추가
 import ChatPage from "./pages/ChatPage"; // 추가
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -37,6 +38,16 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/chat"
+          element={
+            <PrivateRoute>
+              <ChatPage />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />{" "}
+        {/* 404 페이지 라우트 추가 */}
       </Routes>
     </Router>
   );

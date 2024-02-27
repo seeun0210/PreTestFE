@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Chat from "../components/Chat";
 import ChatRoomList from "../components/ChatRoomList";
