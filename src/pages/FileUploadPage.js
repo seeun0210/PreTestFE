@@ -13,7 +13,6 @@ const FileUploadPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileStructure, setFileStructure] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
-  const fileEditorRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {

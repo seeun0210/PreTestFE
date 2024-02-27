@@ -21,7 +21,7 @@ const Header = () => {
     <header className="bg-blue-500 text-white p-4 mb-4">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="font-bold text-xl cursor-pointer" onClick={goToMainPage}>
-          <FaCloud className="inline" size={50} /> GROOM
+          <FaCloud className="inline" size={50} /> My App
         </h1>
         <div>
           <nav className="flex space-x-4 items-center">
@@ -29,13 +29,13 @@ const Header = () => {
               onClick={() => navigate("/chat")}
               className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-700 transition duration-300 flex items-center"
             >
-              <FaComments className="mr-2" /> 채팅
+              <FaComments className="mr-2" /> chat
             </button>
             <button
               onClick={() => navigate("/upload")}
               className="px-4 py-2 bg-blue-500 rounded hover:bg-blue-700 transition duration-300 flex items-center"
             >
-              <FaUpload className="mr-2" /> 파일 업로드
+              <FaUpload className="mr-2" /> file
             </button>
             <div className="relative">
               <button
@@ -51,7 +51,7 @@ const Header = () => {
                     onClick={handleLogout}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100 w-full text-left flex items-center"
                   >
-                    로그아웃
+                    signout
                   </button>
                 </div>
               )}

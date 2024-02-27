@@ -1,6 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom"; // react-router-dom에서 Link 컴포넌트 import
 import Header from "../components/Header";
-import { FaComments, FaUserPlus } from "react-icons/fa"; // 리액트 아이콘 라이브러리에서 아이콘 import
+import { FaComments, FaUserPlus, FaUpload } from "react-icons/fa"; // 아이콘 추가
 import "../styles/mainPage.css"; // 추가된 CSS 파일
 
 const MainPage = () => {
@@ -10,26 +11,26 @@ const MainPage = () => {
       <div className="app-container">
         <main>
           <section className="main-section">
-            <h1 className="page-title">
-              <FaComments className="icon" /> Welcome to GROOM
-            </h1>
+            <h1 className="page-title">PreTest</h1>
             <p className="welcome-message">
-              Start chatting with friends and join interesting chat rooms!
+              Explore the world of chat, create chat rooms, whisper, and manage
+              your files!
             </p>
             <p className="app-intro">
-              GROOM is a platform where you can discover and join various chat
-              rooms on different topics. Whether you're interested in
-              technology, sports, or music, there's a chat room for you!
+              This App offers a dynamic platform for chatting, creating your own
+              chat rooms on a variety of topics, and engaging in private
+              whispers. Additionally, This App provides functionalities to
+              upload and edit files, making collaboration and sharing easier
+              than ever. Join today to start discovering and connecting!
             </p>
             <div className="call-to-action">
-              <button className="create-room-button">
-                <FaUserPlus className="button-icon" /> Get started by creating
-                your own chat room!
-              </button>
-              <button className="join-room-button">
-                <FaComments className="button-icon" /> Join existing chat rooms
-                and start chatting now!
-              </button>
+              <Link to="/chat" className="create-room-button">
+                <FaUserPlus className="button-icon" /> Start or join a chat
+                room!
+              </Link>
+              <Link to="/upload" className="join-room-button">
+                <FaUpload className="button-icon" /> Manage your files here
+              </Link>
             </div>
           </section>
         </main>

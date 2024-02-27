@@ -41,7 +41,11 @@ const FileTree = ({ fileStructure, onSelectFile }) => {
       );
 
       if (!response.ok) {
-        throw new Error("Network response was not ok.");
+        if (response.status === 404) {
+          alert("불러올 수 없는 파일입니다."); // 404 Not Found 응답 처리
+        } else {
+          throw new Error("Network response was not ok.");
+        }
       }
 
       const data = await response.json();
