@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FaSave, FaRegQuestionCircle } from "react-icons/fa"; // 아이콘 추가
 import Tooltip from "@material-ui/core/Tooltip"; // 툴팁을 위한 Material-UI 컴포넌트
+import fetchWithTokenRefresh from "../utils/apis/FetchWithRefreshToken";
 
 const FileEditor = ({ selectedFile, onSave }) => {
   const [content, setContent] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
 
   useEffect(() => {
     if (selectedFile && selectedFile.readFileResult) {
@@ -11,8 +13,36 @@ const FileEditor = ({ selectedFile, onSave }) => {
     }
   }, [selectedFile]);
 
-  const handleSave = () => {
-    onSave({ ...selectedFile, readFileResult: content });
+  const handleSave = async () => {
+    setIsLoading(true); // 저장 시작 시 로딩 상태 활성화
+    const url = "http://localhost:8000/file";
+    const options = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`, // 이 부분은 fetchWithTokenRefresh 내부에서 처리될 것입니다.
+      },
+      body: JSON.stringify({
+        readFileResult: content, // 수정된 파일 내용
+        fullyDecoded: selectedFile.fullyDecoded, // 파일 경로
+      }),
+    };
+
+    try {
+      const response = await fetchWithTokenRefresh(url, options);
+      if (response.ok) {
+        const updatedData = await response.json(); // 응답 데이터 처리
+        setContent(updatedData.readFileResult); // 응답으로 받은 데이터로 상태 업데이트
+        onSave(updatedData); // 부모 컴포넌트에 업데이트된 데이터 전달
+        alert("파일이 성공적으로 업데이트 되었습니다.");
+      } else {
+        alert("파일 업데이트에 실패하였습니다.");
+      }
+    } catch (error) {
+      console.error("파일 업데이트 중 에러 발생:", error);
+    } finally {
+      setIsLoading(false); // 작업 완료 후 로딩 상태 비활성화
+    }
   };
 
   // 파일 경로를 처리하여 UI에 표시하기 위한 함수
@@ -27,6 +57,10 @@ const FileEditor = ({ selectedFile, onSave }) => {
       </Tooltip>
     ));
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>; // 로딩 중 표시
+  }
 
   return (
     <div className="bg-white shadow rounded-lg p-4">

@@ -5,16 +5,19 @@ import FileEditor from "../components/FileEditor";
 import FileTree from "../components/FileTree";
 import fetchWithTokenRefresh from "../utils/apis/FetchWithRefreshToken";
 import { FaUpload, FaFileAlt } from "react-icons/fa";
+// 로딩 애니메이션을 위한 CSS 스타일
+import "../styles/loadingSpinner.css"; // 필요한 경우 경로를 수정하세요.
 
 const FileUploadPage = () => {
   const [uploadCounter, setUploadCounter] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileStructure, setFileStructure] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
   const fileEditorRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      // fetchWithTokenRefresh를 사용하여 API 호출
+      setIsLoading(true); // 로딩 시작
       const options = {
         method: "GET",
         headers: {
@@ -32,6 +35,7 @@ const FileUploadPage = () => {
       } else {
         console.error("Failed to fetch file structure");
       }
+      setIsLoading(false); // 로딩 종료
     };
 
     fetchData();
@@ -55,10 +59,14 @@ const FileUploadPage = () => {
           <FileUpload onUploadSuccess={handleUploadSuccess} />
           <div className="mt-8">
             <h2 className="text-lg font-semibold mb-2">파일 구조</h2>
-            <FileTree
-              fileStructure={fileStructure}
-              onSelectFile={setSelectedFile}
-            />
+            {isLoading ? (
+              <div className="loading-spinner"></div> // 로딩 애니메이션 표시
+            ) : (
+              <FileTree
+                fileStructure={fileStructure}
+                onSelectFile={setSelectedFile}
+              />
+            )}
           </div>
         </div>
 
