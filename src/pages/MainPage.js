@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"; // react-router-dom에서 Link 컴포넌트 import
 import Header from "../components/Header";
-import { FaComments, FaUserPlus, FaUpload } from "react-icons/fa"; // 아이콘 추가
+import { FaUserPlus, FaUpload } from "react-icons/fa"; // 아이콘 추가
 import "../styles/mainPage.css"; // 추가된 CSS 파일
 
 const MainPage = () => {

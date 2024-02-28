@@ -36,7 +36,7 @@ const FileUpload = ({ onUploadSuccess }) => {
 
     try {
       const response = await fetchWithTokenRefresh(
-        `${process.env.REACT_APP_BE_URLs}/file`,
+        `${process.env.REACT_APP_BE_URL}/file`,
         options
       );
 

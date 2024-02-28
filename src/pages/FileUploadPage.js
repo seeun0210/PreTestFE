@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import FileUpload from "../components/FileUpload";
 import FileEditor from "../components/FileEditor";
 import FileTree from "../components/FileTree";
 import fetchWithTokenRefresh from "../utils/apis/FetchWithRefreshToken";
-import { FaUpload, FaFileAlt } from "react-icons/fa";
+
 // 로딩 애니메이션을 위한 CSS 스타일
 import "../styles/loadingSpinner.css"; // 필요한 경우 경로를 수정하세요.
 
@@ -42,10 +42,6 @@ const FileUploadPage = () => {
 
   const handleUploadSuccess = () => {
     setUploadCounter((prev) => prev + 1);
-  };
-
-  const onSelectFile = (fileContent) => {
-    setSelectedFile(fileContent);
   };
 
   return (
