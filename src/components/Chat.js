@@ -20,7 +20,7 @@ const Chat = ({ roomId }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:8000/chat", {
+    socketRef.current = io(`${process.env.REACT_APP_BE_URL}/chat`, {
       query: { token: `Bearer ${localStorage.getItem("accessToken")}` },
     });
 
@@ -55,7 +55,7 @@ const Chat = ({ roomId }) => {
       return; // 사용자가 취소를 클릭한 경우
     }
 
-    const url = `http://localhost:8000/chat-room/${roomId}/leave`; // 실제 나가기 API 엔드포인트
+    const url = `${process.env.REACT_APP_BE_URL}/chat-room/${roomId}/leave`; // 실제 나가기 API 엔드포인트
     const options = {
       method: "PATCH", // 요청 메소드
       headers: {

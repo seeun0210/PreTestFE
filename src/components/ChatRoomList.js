@@ -10,7 +10,7 @@ const ChatRoomList = ({ onEnterRoom }) => {
 
   useEffect(() => {
     const fetchChatRooms = async (retryCount = 0) => {
-      const url = "http://localhost:8000/chat-room";
+      const url = `${process.env.REACT_APP_BE_URL}/chat-room`;
       const options = {
         method: "GET",
         headers: {

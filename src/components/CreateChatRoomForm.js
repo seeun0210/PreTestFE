@@ -27,7 +27,7 @@ const CreateChatRoomForm = ({ onCreate, onCancel }) => {
       body: JSON.stringify(chatRoomData),
     };
 
-    const url = "http://localhost:8000/chat-room"; // 채팅방 생성 API 엔드포인트
+    const url = `${process.env.REACT_APP_BE_URL}/chat-room`; // 채팅방 생성 API 엔드포인트
     const response = await fetchWithTokenRefresh(url, options);
 
     if (response.ok) {

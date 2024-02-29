@@ -16,12 +16,15 @@ const LoginForm = () => {
     const token = btoa(`${email}:${password}`);
 
     try {
-      const response = await fetch("http://localhost:8000/auth/signin", {
-        method: "POST",
-        headers: {
-          Authorization: `Basic ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BE_URL}/auth/signin`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();

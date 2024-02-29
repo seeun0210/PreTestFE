@@ -21,12 +21,15 @@ const fetchWithTokenRefresh = async (url, options) => {
 // 리프레시 토큰을 사용하여 새 액세스 토큰을 요청하는 함수
 const refreshToken = async () => {
   try {
-    const response = await fetch("http://localhost:8000/auth/token/access", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BE_URL}/auth/token/access`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("refreshToken")}`,
+        },
+      }
+    );
 
     if (response.ok) {
       const data = await response.json();
